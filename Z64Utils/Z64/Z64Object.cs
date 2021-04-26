@@ -1153,27 +1153,40 @@ namespace Z64
             foreach (var iter in Entries)
             {
                 XmlElement child = null;
+                string objectVarName = $"g{objectName}_{iter.Name}";
                 switch (iter.GetEntryType())
                 {
                     case EntryType.DList:
                         child = doc.CreateElement("DList");
+                        child.SetAttribute("Name", objectVarName);
                         break;
                     case EntryType.Vertex:
-                        child = doc.CreateElement("Vtx");
-                        break;
+                        continue;
+                        //child = doc.CreateElement("Vtx");
+                        //break;
                     case EntryType.Texture:
                         {
                             child = doc.CreateElement("Texture");
+                            child.SetAttribute("Name", objectVarName);
 
                             var holder = (TextureHolder)iter;
                             child.SetAttribute("OutName", iter.Name); // TODO
-                            child.SetAttribute("Format", holder.Format.ToString()); // TODO
+                            child.SetAttribute("Format", N64Texture.ToZapdTextureFormat(holder.Format));
                             child.SetAttribute("Width", holder.Width.ToString());
                             child.SetAttribute("Height", holder.Height.ToString());
                             break;
                         }
                     case EntryType.Unknown:
+                        bool allZeroes = iter.GetData().All(b => b == 0);
+                        if (allZeroes && iter.GetSize() < 16) {
+                            continue;
+                        }
+                        if (allZeroes) {
+                            objectVarName = $"g{objectName}_zeroes_{iter.Name}";
+                        }
+
                         child = doc.CreateElement("Blob");
+                        child.SetAttribute("Name", objectVarName);
                         child.SetAttribute("Size", iter.GetSize().ToString());
                         break;
                     case EntryType.SkeletonLimbs:
@@ -1204,30 +1217,37 @@ namespace Z64
                         }
                     case EntryType.Mtx:
                         child = doc.CreateElement("Mtx");
+                        child.SetAttribute("Name", objectVarName);
                         break;
                     case EntryType.SkeletonHeader:
                         child = doc.CreateElement("Skeleton");
+                        child.SetAttribute("Name", objectVarName);
                         child.SetAttribute("Type", "Normal");
                         child.SetAttribute("LimbType", "Standard");
                         break;
                     case EntryType.FlexSkeletonHeader:
                         child = doc.CreateElement("Skeleton");
+                        child.SetAttribute("Name", objectVarName);
                         child.SetAttribute("Type", "Flex");
                         child.SetAttribute("LimbType", "Standard");
                         break;
                     case EntryType.SkeletonLimb:
                         child = doc.CreateElement("Limb");
+                        child.SetAttribute("Name", objectVarName);
                         child.SetAttribute("LimbType", "Standard");
                         break;
                     case EntryType.AnimationHeader:
                         child = doc.CreateElement("Animation");
+                        child.SetAttribute("Name", objectVarName);
                         break;
                     default:
                         throw new Z64ObjectException($"Invalid entry type ({iter.GetEntryType()})");
                 }
-                child?.SetAttribute("Name", iter.Name);
+                //child?.SetAttribute("Name", objectVarName);
                 //child?.SetAttribute("Offset", iter.Offset);
-                child?.SetAttribute("Offset", iter.Name.Split("_").Last());
+                string offset = iter.Name.Split("_").Last();
+                offset = Convert.ToInt32(offset, 16).ToString("X");
+                child?.SetAttribute("Offset", "0x" + offset);
                 file.AppendChild(child);
             }
             //return JsonSerializer.Serialize<object>(list, new JsonSerializerOptions() { WriteIndented = true }) ;

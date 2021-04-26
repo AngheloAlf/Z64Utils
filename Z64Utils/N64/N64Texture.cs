@@ -484,5 +484,30 @@ namespace N64
             throw new NotImplementedException();
         }
 
+        public static string ToZapdTextureFormat(N64TexFormat format)
+        {
+            switch(format)
+            {
+            case N64TexFormat.RGBA16:
+                return "rgb5a1";
+            case N64TexFormat.RGBA32:
+                return "rgba32";
+            case N64TexFormat.IA16:
+                return "ia16";
+            case N64TexFormat.IA8:
+                return "ia8";
+            case N64TexFormat.IA4:
+                return "ia4";
+            case N64TexFormat.I8:
+                return "i8";
+            case N64TexFormat.I4:
+                return "i4";
+            case N64TexFormat.CI8:
+                return "ci8";
+            case N64TexFormat.CI4:
+                return "ci4";
+            }
+            return "ERROR";
+        }
     }
 }

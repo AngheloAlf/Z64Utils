@@ -32,8 +32,8 @@ namespace Z64
             string[] lines = System.IO.File.ReadAllLines("objects_list.txt");
             foreach(string line in lines){
                 string[] row = line.Split("\t");
-                int objectIndex = Convert.ToInt32(row[4], 16) + 497;
-                string objectName = row[5];
+                int objectIndex = Convert.ToInt32(row[0], 10);
+                string objectName = row[6];
                 PrintObjectData(game, objectIndex, objectName);
             }
 #endif
@@ -42,7 +42,7 @@ namespace Z64
 
 
         static void PrintObjectData(Z64Game game, int objectIndex, string objectName) {
-            Console.Write(objectName + "\n");
+            Console.Write($"{objectIndex} ~ {objectName}\n");
 
             Z64File file = game.GetFileFromIndex(objectIndex);
             byte[] data = file.Data;
@@ -51,14 +51,14 @@ namespace Z64
             Z64ObjectAnalyzer.Config config = new Z64ObjectAnalyzer.Config();
             Z64ObjectAnalyzer.FindDlists(obj, data, segmentId, config);
             Z64ObjectAnalyzer.AnalyzeDlists(obj, data, segmentId);
-            obj.WriteXml($"xmls/{objectName}.xml");
+            obj.WriteXml($"xmls/{objectName}.xml", objectName, "6");
 
             foreach (var entry in obj.Entries)
             {
-                Console.Write(entry.Name + "\n");
-                
+                //Console.Write(entry.Name + "\n");
             }
-            Console.Write("\n\n");
+            //Console.Write("\n");
+            Console.Write("\n");
 
         }
     }
