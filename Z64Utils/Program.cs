@@ -22,13 +22,19 @@ namespace Z64
         {
             Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
 
-#if _WINDOWS
             Z64Version.LoadRessources();
+#if _WINDOWS
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
 #else
-
+            Z64Game game = new Z64Game("baserom.z64");
+            Z64File file = game.GetFileFromIndex(200);
+            byte[] data = file.Data;
+            Z64Object obj = new Z64Object(data);
+            int segmentId = 6;
+            Z64ObjectAnalyzer.FindDlists(obj, data, segmentId, null);
+            Z64ObjectAnalyzer.AnalyzeDlists(obj, data, segmentId);
 #endif
 
         }
