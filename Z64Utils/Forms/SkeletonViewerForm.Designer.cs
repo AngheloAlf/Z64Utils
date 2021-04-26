@@ -1,4 +1,5 @@
-﻿
+﻿#if _WINDOWS
+
 namespace Z64.Forms
 {
     partial class SkeletonViewerForm
@@ -265,3 +266,5 @@ namespace Z64.Forms
         private System.Windows.Forms.Button button_playbackAnim;
     }
 }
+
+#endif

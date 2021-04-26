@@ -1,4 +1,6 @@
-﻿namespace Z64.Forms
+﻿#if _WINDOWS
+
+namespace Z64.Forms
 {
     partial class SegmentEditorForm
     {
@@ -275,3 +277,5 @@
         private SegmentControl segmentControl15;
     }
 }
+
+#endif

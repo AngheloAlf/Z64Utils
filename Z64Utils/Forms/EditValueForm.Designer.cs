@@ -1,4 +1,6 @@
-﻿namespace Z64.Forms
+﻿#if _WINDOWS
+
+namespace Z64.Forms
 {
     partial class EditValueForm
     {
@@ -102,3 +104,5 @@
         private System.Windows.Forms.Label labelWarn;
     }
 }
+
+#endif

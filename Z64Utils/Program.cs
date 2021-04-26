@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+#if _WINDOWS
 using System.Windows.Forms;
 using Z64.Forms;
+#endif
 using Z64;
 using System.Globalization;
 using System.Threading;
@@ -20,10 +22,15 @@ namespace Z64
         {
             Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
 
-            Z64Version.LoadRessources();   
+#if _WINDOWS
+            Z64Version.LoadRessources();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
+#else
+
+#endif
+
         }
     }
 }

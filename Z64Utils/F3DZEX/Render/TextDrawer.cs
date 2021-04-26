@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if _WINDOWS
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using OpenTK;
@@ -212,3 +214,5 @@ namespace F3DZEX.Render
         }
     }
 }
+
+#endif

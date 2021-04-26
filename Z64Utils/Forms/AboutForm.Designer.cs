@@ -1,4 +1,6 @@
-﻿namespace Z64.Forms
+﻿#if _WINDOWS
+
+namespace Z64.Forms
 {
     partial class AboutForm
     {
@@ -167,3 +169,5 @@
         private System.Windows.Forms.Label label5;
     }
 }
+
+#endif

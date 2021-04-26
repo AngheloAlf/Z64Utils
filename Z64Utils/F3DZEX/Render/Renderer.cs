@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if _WINDOWS
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -451,3 +453,5 @@ namespace F3DZEX.Render
         }
     }
 }
+
+#endif

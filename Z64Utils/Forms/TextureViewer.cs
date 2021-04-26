@@ -1,4 +1,6 @@
-﻿using N64;
+﻿#if _WINDOWS
+
+using N64;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -102,3 +104,5 @@ namespace Z64.Forms
         }
     }
 }
+
+#endif

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if _WINDOWS
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
@@ -15,3 +17,5 @@ namespace Z64.Forms
 
     }
 }
+
+#endif

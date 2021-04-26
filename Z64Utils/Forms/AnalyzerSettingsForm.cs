@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if _WINDOWS
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -171,3 +173,5 @@ means: When encountering a G_NOOP opcode, check if the last instruction is G_LOA
         }
     }
 }
+
+#endif

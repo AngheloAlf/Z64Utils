@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿#if _WINDOWS
+
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using Common;
@@ -110,4 +112,4 @@ namespace Z64.Forms
     }
 }
 
-
+#endif

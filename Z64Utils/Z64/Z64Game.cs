@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Syroot.BinaryData;
 using N64;
-using System.Windows.Forms;
+//using System.Windows.Forms;
 using System.Collections;
 
 namespace Z64

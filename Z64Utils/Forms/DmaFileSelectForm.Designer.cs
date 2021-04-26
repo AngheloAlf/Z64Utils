@@ -1,4 +1,6 @@
-﻿namespace Z64.Forms
+﻿#if _WINDOWS
+
+namespace Z64.Forms
 {
     partial class DmaFileSelectForm
     {
@@ -128,3 +130,5 @@
         private System.Windows.Forms.ColumnHeader columnHeader3;
     }
 }
+
+#endif

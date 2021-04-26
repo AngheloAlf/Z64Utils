@@ -1,4 +1,6 @@
-﻿namespace Z64.Forms
+﻿#if _WINDOWS
+
+namespace Z64.Forms
 {
     partial class SegmentControl
     {
@@ -94,3 +96,5 @@
         private System.Windows.Forms.Label label1;
     }
 }
+
+#endif

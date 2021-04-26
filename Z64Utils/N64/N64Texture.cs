@@ -109,6 +109,7 @@ namespace N64
             return GetTexSize(texels, a.Item2);
         }
 
+#if _WINDOWS
         public static Bitmap DecodeBitmap(int w, int h, N64TexFormat format, byte[] buff, byte[] tlut = null)
         {
             var a = ConvertFormat(format);
@@ -132,6 +133,9 @@ namespace N64
             bmp.UnlockBits(bmpData);
             return bmp;
         }
+
+#endif
+
         public static byte[] Decode(int texels, G_IM_FMT fmt, G_IM_SIZ siz, byte[] buff, byte[] tlut)
         {
             switch (fmt)
@@ -171,6 +175,7 @@ namespace N64
             }
         }
 
+#if _WINDOWS
         public static unsafe byte[] EncodeBitmap(Bitmap bmp, N64TexFormat format)
         {
             var a = ConvertFormat(format);
@@ -193,6 +198,7 @@ namespace N64
             bmp.UnlockBits(bmpData);
             return Encode(rgba, fmt, siz);
         }
+#endif
 
         public static byte[] Encode(byte[] rgba, G_IM_FMT fmt, G_IM_SIZ siz)
         {

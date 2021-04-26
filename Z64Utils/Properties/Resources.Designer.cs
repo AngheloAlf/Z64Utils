@@ -59,7 +59,8 @@ namespace Z64.Properties {
                 resourceCulture = value;
             }
         }
-        
+
+#if _WINDOWS
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
@@ -199,5 +200,7 @@ namespace Z64.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+#endif
+
     }
 }

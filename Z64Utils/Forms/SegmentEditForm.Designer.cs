@@ -1,4 +1,6 @@
-﻿namespace Z64.Forms
+﻿#if _WINDOWS
+
+namespace Z64.Forms
 {
     partial class SegmentEditForm
     {
@@ -189,3 +191,5 @@
         private System.Windows.Forms.TabPage tabPage_empty;
     }
 }
+
+#endif

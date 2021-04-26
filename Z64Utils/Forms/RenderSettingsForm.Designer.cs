@@ -1,4 +1,6 @@
-﻿namespace Z64.Forms
+﻿#if _WINDOWS
+
+namespace Z64.Forms
 {
     partial class RenderSettingsForm
     {
@@ -62,3 +64,5 @@
         private System.Windows.Forms.PropertyGrid propertyGrid1;
     }
 }
+
+#endif

@@ -1,4 +1,6 @@
-﻿namespace Z64.Forms
+﻿#if _WINDOWS
+
+namespace Z64.Forms
 {
     partial class AnalyzerSettingsForm
     {
@@ -211,3 +213,5 @@
         private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }
+
+#endif

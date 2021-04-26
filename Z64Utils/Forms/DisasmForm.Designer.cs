@@ -1,4 +1,6 @@
-﻿namespace Z64.Forms
+﻿#if _WINDOWS
+
+namespace Z64.Forms
 {
     partial class DisasmForm
     {
@@ -132,3 +134,5 @@
         private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }
+
+#endif

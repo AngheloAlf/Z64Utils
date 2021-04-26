@@ -1,4 +1,6 @@
-﻿using OpenTK;
+﻿#if _WINDOWS
+
+using OpenTK;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -509,3 +511,5 @@ namespace Z64.Forms
         }
     }
 }
+
+#endif

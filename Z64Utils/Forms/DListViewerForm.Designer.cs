@@ -1,4 +1,6 @@
-﻿namespace Z64.Forms
+﻿#if _WINDOWS
+
+namespace Z64.Forms
 {
     partial class DListViewerForm
     {
@@ -237,3 +239,5 @@
         private System.Windows.Forms.ToolStripMenuItem EditRoutineMenuItem;
     }
 }
+
+#endif

@@ -143,6 +143,8 @@ namespace Z64
                 SetData(tex);
             }
 
+#if _WINDOWS
+
             public void SetBitmap(Bitmap bmp, N64TexFormat format)
             {
                 throw new NotImplementedException();
@@ -151,6 +153,8 @@ namespace Z64
             {
                 return N64Texture.DecodeBitmap(Width, Height, Format, Texture, Tlut?.Texture);
             }
+
+#endif
 
             public override EntryType GetEntryType() => EntryType.Texture;
             public override byte[] GetData() => Texture;

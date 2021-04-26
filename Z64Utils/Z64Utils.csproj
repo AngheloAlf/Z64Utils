@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
-    <UseWindowsForms>true</UseWindowsForms>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <RootNamespace>Z64</RootNamespace>
     <AssemblyName>Z64Utils</AssemblyName>
@@ -14,7 +13,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Be.Windows.Forms.HexBox" Version="1.6.1" />
+    <!--PackageReference Include="Be.Windows.Forms.HexBox" Version="1.6.1" /-->
+    <PackageReference Include="System.Resources.Extensions" />
     <PackageReference Include="OpenTK.GLControl" Version="3.1.0" />
     <PackageReference Include="Syroot.BinaryData" Version="5.2.2" />
   </ItemGroup>
@@ -80,5 +80,9 @@
   </ItemGroup>
   <PropertyGroup>
     <ApplicationIcon>kaeton.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
+    <DefineConstants>_WINDOWS</DefineConstants>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 </Project>
