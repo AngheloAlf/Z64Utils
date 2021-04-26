@@ -29,27 +29,36 @@ namespace Z64
             Application.Run(new MainForm());
 #else
             Z64Game game = new Z64Game("baserom.z64");
-            Z64File file = game.GetFileFromIndex(791);
+            string[] lines = System.IO.File.ReadAllLines("objects_list.txt");
+            foreach(string line in lines){
+                string[] row = line.Split("\t");
+                int objectIndex = Convert.ToInt32(row[4], 16) + 497;
+                string objectName = row[5];
+                PrintObjectData(game, objectIndex, objectName);
+            }
+#endif
+
+        }
+
+
+        static void PrintObjectData(Z64Game game, int objectIndex, string objectName) {
+            Console.Write(objectName + "\n");
+
+            Z64File file = game.GetFileFromIndex(objectIndex);
             byte[] data = file.Data;
             Z64Object obj = new Z64Object(data);
             int segmentId = 6;
             Z64ObjectAnalyzer.Config config = new Z64ObjectAnalyzer.Config();
             Z64ObjectAnalyzer.FindDlists(obj, data, segmentId, config);
             Z64ObjectAnalyzer.AnalyzeDlists(obj, data, segmentId);
-
-            //Console.Write(obj.ToString() + "\n");
-            //Console.Write(Z64Version.FileTable[Z64VersionEnum.OotEuropeMqDbg][] + "\n");
+            obj.WriteXml($"xmls/{objectName}.xml");
 
             foreach (var entry in obj.Entries)
             {
                 Console.Write(entry.Name + "\n");
-                /*
-                var item = listView_map.Items.Add($"{new SegmentedAddress(_segment, _obj.OffsetOf(entry)).VAddr:X8}");
-                item.SubItems.Add(entry.Name);
-                item.SubItems.Add(entry.GetEntryType().ToString());
-                */
+                
             }
-#endif
+            Console.Write("\n\n");
 
         }
     }

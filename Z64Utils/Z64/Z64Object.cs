@@ -12,6 +12,7 @@ using F3DZEX;
 using Syroot.BinaryData;
 using Common;
 using RDP;
+using System.Xml;
 
 namespace Z64
 {
@@ -1134,6 +1135,105 @@ namespace Z64
             }
             return obj;
         }
+
+
+        public void WriteXml(string filename, string objectName=null, string segmentNumber=null)
+        {
+            XmlDocument doc = new XmlDocument();
+            XmlElement root = doc.CreateElement("Root");
+            doc.AppendChild(root);
+
+            XmlElement file = doc.CreateElement("File");
+            // TODO
+            file.SetAttribute("Name", objectName);
+            file.SetAttribute("Segment", segmentNumber);
+            root.AppendChild(file);
+
+            var list = new List<object>();
+            foreach (var iter in Entries)
+            {
+                XmlElement child = null;
+                switch (iter.GetEntryType())
+                {
+                    case EntryType.DList:
+                        child = doc.CreateElement("DList");
+                        break;
+                    case EntryType.Vertex:
+                        child = doc.CreateElement("Vtx");
+                        break;
+                    case EntryType.Texture:
+                        {
+                            child = doc.CreateElement("Texture");
+
+                            var holder = (TextureHolder)iter;
+                            child.SetAttribute("OutName", iter.Name); // TODO
+                            child.SetAttribute("Format", holder.Format.ToString()); // TODO
+                            child.SetAttribute("Width", holder.Width.ToString());
+                            child.SetAttribute("Height", holder.Height.ToString());
+                            break;
+                        }
+                    case EntryType.Unknown:
+                        child = doc.CreateElement("Blob");
+                        child.SetAttribute("Size", iter.GetSize().ToString());
+                        break;
+                    case EntryType.SkeletonLimbs:
+                        {
+                            continue;
+                            /*
+                            child = doc.CreateElement("Array");
+                            // I think ZAPD doesn't support this right now, but maybe in the future ?
+                            var subChild = doc.CreateElement("Limb");
+
+                            var holder = (SkeletonLimbsHolder)iter;
+                            child.SetAttribute("Count", holder.LimbSegments.Length.ToString());
+                            child.AppendChild(subChild);
+                            */
+                            //break;
+                        }
+                    case EntryType.JointIndices:
+                        {
+                            continue;
+                            // ?
+                            //break;
+                        }
+                    case EntryType.FrameData:
+                        {
+                            continue;
+                            // ?
+                            //break;
+                        }
+                    case EntryType.Mtx:
+                        child = doc.CreateElement("Mtx");
+                        break;
+                    case EntryType.SkeletonHeader:
+                        child = doc.CreateElement("Skeleton");
+                        child.SetAttribute("Type", "Normal");
+                        child.SetAttribute("LimbType", "Standard");
+                        break;
+                    case EntryType.FlexSkeletonHeader:
+                        child = doc.CreateElement("Skeleton");
+                        child.SetAttribute("Type", "Flex");
+                        child.SetAttribute("LimbType", "Standard");
+                        break;
+                    case EntryType.SkeletonLimb:
+                        child = doc.CreateElement("Limb");
+                        child.SetAttribute("LimbType", "Standard");
+                        break;
+                    case EntryType.AnimationHeader:
+                        child = doc.CreateElement("Animation");
+                        break;
+                    default:
+                        throw new Z64ObjectException($"Invalid entry type ({iter.GetEntryType()})");
+                }
+                child?.SetAttribute("Name", iter.Name);
+                //child?.SetAttribute("Offset", iter.Offset);
+                child?.SetAttribute("Offset", iter.Name.Split("_").Last());
+                file.AppendChild(child);
+            }
+            //return JsonSerializer.Serialize<object>(list, new JsonSerializerOptions() { WriteIndented = true }) ;
+            doc.Save(filename);
+        }
+
 
     }
 }
