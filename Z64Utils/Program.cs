@@ -49,6 +49,14 @@ namespace Z64
             Z64Object obj = new Z64Object(data);
             int segmentId = 6;
             Z64ObjectAnalyzer.Config config = new Z64ObjectAnalyzer.Config();
+            config.ImprobableOpCodes = new List<F3DZEX.Command.CmdID>()
+            {
+                F3DZEX.Command.CmdID.G_BRANCH_Z,
+                F3DZEX.Command.CmdID.G_CULLDL,
+                F3DZEX.Command.CmdID.G_NOOP,
+                F3DZEX.Command.CmdID.G_SPNOOP,
+                F3DZEX.Command.CmdID.G_LOAD_UCODE,
+            };
             Z64ObjectAnalyzer.FindDlists(obj, data, segmentId, config);
             Z64ObjectAnalyzer.AnalyzeDlists(obj, data, segmentId);
             obj.WriteXml($"xmls/{objectName}.xml", objectName, "6");

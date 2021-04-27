@@ -1166,10 +1166,15 @@ namespace Z64
                         //break;
                     case EntryType.Texture:
                         {
+                            var holder = (TextureHolder)iter;
+                            /*if (iter.Name.StartsWith("tlut"))
+                            {
+                                continue;
+                            }*/
+
                             child = doc.CreateElement("Texture");
                             child.SetAttribute("Name", objectVarName);
 
-                            var holder = (TextureHolder)iter;
                             child.SetAttribute("OutName", iter.Name); // TODO
                             child.SetAttribute("Format", N64Texture.ToZapdTextureFormat(holder.Format));
                             child.SetAttribute("Width", holder.Width.ToString());
@@ -1178,7 +1183,7 @@ namespace Z64
                         }
                     case EntryType.Unknown:
                         bool allZeroes = iter.GetData().All(b => b == 0);
-                        if (allZeroes && iter.GetSize() < 16) {
+                        if (allZeroes && iter.GetSize() <= 16) {
                             continue;
                         }
                         if (allZeroes) {
@@ -1187,7 +1192,7 @@ namespace Z64
 
                         child = doc.CreateElement("Blob");
                         child.SetAttribute("Name", objectVarName);
-                        child.SetAttribute("Size", iter.GetSize().ToString());
+                        child.SetAttribute("Size", "0x" + iter.GetSize().ToString("X"));
                         break;
                     case EntryType.SkeletonLimbs:
                         {
