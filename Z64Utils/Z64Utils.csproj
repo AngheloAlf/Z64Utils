@@ -82,7 +82,7 @@
     <ApplicationIcon>kaeton.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
-    <DefineConstants>_WINDOWS</DefineConstants>
+    <!--DefineConstants>_WINDOWS</DefineConstants-->
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 </Project>

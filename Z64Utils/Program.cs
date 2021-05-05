@@ -33,7 +33,7 @@ namespace Z64
             foreach(string line in lines){
                 string[] row = line.Split("\t");
                 int objectIndex = Convert.ToInt32(row[0], 10);
-                string objectName = row[6];
+                string objectName = row[1];
                 PrintObjectData(game, objectIndex, objectName);
             }
 #endif
