@@ -1153,11 +1153,17 @@ namespace Z64
             foreach (var iter in Entries)
             {
                 XmlElement child = null;
-                string objectVarName = $"g{objectName}_{iter.Name}";
+                string offset = iter.Name.Split("_").Last();
+                string formattedOffset = Convert.ToInt32(offset, 16).ToString("X6");
+                string objectVarType = iter.Name.Split("_").First();
+                objectVarType = (objectVarType.First() + "").ToUpper() + objectVarType.Substring(1);
+
+                string objectVarName = $"{objectName}_{objectVarType}_{formattedOffset}";
                 switch (iter.GetEntryType())
                 {
                     case EntryType.DList:
                         child = doc.CreateElement("DList");
+                        objectVarName = $"{objectName}_DL_{formattedOffset}";
                         child.SetAttribute("Name", objectVarName);
                         break;
                     case EntryType.Vertex:
@@ -1167,15 +1173,15 @@ namespace Z64
                     case EntryType.Texture:
                         {
                             var holder = (TextureHolder)iter;
-                            /*if (iter.Name.StartsWith("tlut"))
+                            if (iter.Name.StartsWith("tlut"))
                             {
-                                continue;
-                            }*/
+                                objectVarName = $"{objectName}_{objectVarType.ToUpper()}_{formattedOffset}";
+                            }
 
                             child = doc.CreateElement("Texture");
                             child.SetAttribute("Name", objectVarName);
 
-                            child.SetAttribute("OutName", iter.Name); // TODO
+                            child.SetAttribute("OutName", $"{objectVarType.ToLower()}_{formattedOffset}"); // TODO
                             child.SetAttribute("Format", N64Texture.ToZapdTextureFormat(holder.Format));
                             child.SetAttribute("Width", holder.Width.ToString());
                             child.SetAttribute("Height", holder.Height.ToString());
@@ -1183,11 +1189,12 @@ namespace Z64
                         }
                     case EntryType.Unknown:
                         bool allZeroes = iter.GetData().All(b => b == 0);
+                                objectVarName = $"{objectName}_Blob_{formattedOffset}";
                         if (allZeroes && iter.GetSize() <= 16) {
                             continue;
                         }
                         if (allZeroes) {
-                            objectVarName = $"g{objectName}_zeroes_{iter.Name}";
+                            objectVarName = $"{objectName}_zeroes_{iter.Name}";
                         }
 
                         child = doc.CreateElement("Blob");
@@ -1248,15 +1255,21 @@ namespace Z64
                     default:
                         throw new Z64ObjectException($"Invalid entry type ({iter.GetEntryType()})");
                 }
-                //child?.SetAttribute("Name", objectVarName);
-                //child?.SetAttribute("Offset", iter.Offset);
-                string offset = iter.Name.Split("_").Last();
                 offset = Convert.ToInt32(offset, 16).ToString("X");
                 child?.SetAttribute("Offset", "0x" + offset);
                 file.AppendChild(child);
             }
-            //return JsonSerializer.Serialize<object>(list, new JsonSerializerOptions() { WriteIndented = true }) ;
-            doc.Save(filename);
+
+            XmlWriterSettings settings = new XmlWriterSettings
+            {
+                Indent = true,
+                NewLineChars = "\n",
+                IndentChars = "    ",
+                OmitXmlDeclaration = true
+            };
+            using (XmlWriter writer = XmlWriter.Create(filename, settings)) {
+                doc.Save(writer);
+            }
         }
 
 
