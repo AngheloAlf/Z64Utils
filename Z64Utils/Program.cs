@@ -30,7 +30,10 @@ namespace Z64
 #else
             Z64Game game = new Z64Game("baserom.z64");
             string[] lines = System.IO.File.ReadAllLines("objects_list.txt");
-            foreach(string line in lines){
+            foreach(string line in lines) {
+                if (line.StartsWith("#")) {
+                    continue;
+                }
                 string[] row = line.Split("\t");
                 int objectIndex = Convert.ToInt32(row[0], 10);
                 string objectName = row[1];
